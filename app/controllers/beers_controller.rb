@@ -1,13 +1,16 @@
 class BeersController < ApplicationController
-
+    
     def index
         beers = Beer.all
         render json: beers
     end
+
     def create
         beer = Beer.create(beer_params)
         if beer.valid?
             render json: beer
+        else
+            render json: beer.errors, status: 422
         end
     end
 
@@ -16,6 +19,8 @@ class BeersController < ApplicationController
         beer.update(beer_params)
         if beer.valid?
             render json: beer
+        else
+            render json: beer.errors, status: 422
         end
 
     end
@@ -24,6 +29,8 @@ class BeersController < ApplicationController
         beer = Beer.find(params[:id])
         if beer.destroy
             render json: beer
+        else
+            render json: beer.errors
         end
 
     end
